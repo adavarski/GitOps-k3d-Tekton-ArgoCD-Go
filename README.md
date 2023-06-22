@@ -223,6 +223,15 @@ Once the “pipelinerun” ends and changes are pushed to GitOps repository, Arg
 
 Finally, the sync status become “Synced”:
 
+### Note: https://github.com/adavarski/homelab -> We can add additional system (grafana/prometheus/etc.) Apps & ApplicationSet via ArgoCD manifests (bootstrap root)
+```
+$ git clone https://github.com/adavarski/homelab
+$ cd homelab/bootstrap/root/
+$ ./apply.sh 
+
+```
+
+
 6) Testing Go app
 ```
 
@@ -279,14 +288,6 @@ $ curl $API_URL
 If you create a local cluster in step 3, there is an script to remove the local cluster. This script is `poc/delete-local-cluster.sh`
 
 
-
-### REF (example): https://github.com/adavarski/homelab -> We can add additional system (grafana/prometheus/etc.) Apps & ApplicationSet via ArgoCD manifests (bootstrap root)
-```
-$ git clone https://github.com/adavarski/homelab
-$ cd homelab/bootstrap/root/
-$ ./apply.sh 
-
-```
 ### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry
 (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
