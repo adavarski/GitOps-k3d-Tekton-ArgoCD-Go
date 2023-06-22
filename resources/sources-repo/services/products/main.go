@@ -40,7 +40,7 @@ func setupRouter() *gin.Engine {
 	r := gin.Default()
 
 	ProductRepo := controllers.New()
-	docs.SwaggerInfo.BasePath = "/api/v1"
+//	docs.SwaggerInfo.BasePath = "/api/v1"
 	v1 := r.Group("/api/v1")
 	{
 		products := v1.Group("/products")
