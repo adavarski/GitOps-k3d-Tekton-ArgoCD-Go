@@ -72,7 +72,7 @@ Basically:
 - poc: this is the main folder. Here, you can find three scripts:
    - create-local-cluster.sh: this script creates a local Kubernetes cluster based on K3D.
    - delete-local-cluster.sh: this script removes the local cluster
-   - setup-poc.sh: this script installs and configure everything neccessary in the cluster (Tekton, Argo CD, Nexus, Sonar, etc…)
+   - setup-poc.sh: this script installs and configure everything neccessary in the cluster (Tekton, Argo CD, etc)
 - resources: this the folder used to manage the two repositories (code and gitops):
    - sources-repo: source code of the service used in this poc to test the CI/CD process
    - gitops_repo: repository where Kubernetes files associated to the service to be deployed are
@@ -80,7 +80,7 @@ Basically:
 
 
 1) Fork
-The first step is to fork the repo `https://github.com/adavarski/gitops-k3d-tekton-argocd` because:
+The first step is to fork the repo `https://github.com/adavarski/GitOps-k3d-Tekton-ArgoCD-Go` because:
 
 You have to modify some files to add a token & You need your own repo to perform Gitops operations
 
