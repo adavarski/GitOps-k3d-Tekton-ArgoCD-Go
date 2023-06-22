@@ -62,7 +62,9 @@ A Kubernetes cluster. If you don’t have one, you can create a K3D one using th
 
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
-- [k3d](https://k3d.io/#installation) 
+- [k3d](https://k3d.io/#installation)
+- [Skaffold (Opc)](https://skaffold.dev)  (Note: Local Kubernetes Development)
+
 
 #### Repository structure
 We’ve used a single repo to manage the different projects. 
@@ -232,8 +234,62 @@ Once the “pipelinerun” ends and changes are pushed to GitOps repository, Arg
 
 Finally, the sync status become “Synced”:
 
-6) Delete the local cluster (optional )
+6) Testing Go app
+```
+
+$ kubectl get ing
+NAME               CLASS   HOSTS                          ADDRESS         PORTS   AGE
+products-ingress   nginx   products.192.168.1.99.nip.io   192.168.240.2   80      38m
+
+$ API_URL="http://products.192.168.1.99.nip.io:8888/api/v1/products"
+
+curl $API_URL \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "1","name": "bike","value": 4009.99}' \
+
+curl $API_URL \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "2","name": "ebook x","value": 5.00}'
+
+curl $API_URL \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "3","name": "Server z","value": 90000.00}'
+
+$ curl $API_URL
+[{"CreatedAt":"2023-06-22T13:35:25.641Z","UpdatedAt":"2023-06-22T13:35:25.641Z","DeletedAt":null,"ID":"1","name":"bike","value":4009.99,"active":false},{"CreatedAt":"2023-06-22T13:34:00.088Z","UpdatedAt":"2023-06-22T13:34:00.088Z","DeletedAt":null,"ID":"2","name":"ebook x","value":5,"active":false},{"CreatedAt":"2023-06-22T13:34:01.382Z","UpdatedAt":"2023-06-22T13:34:01.382Z","DeletedAt":null,"ID":"3","name":"Server z","value":90000,"active":false}]
+
+$ curl $API_URL/1
+{"CreatedAt":"2023-06-22T13:35:25.641Z","UpdatedAt":"2023-06-22T13:35:25.641Z","DeletedAt":null,"ID":"1","name":"bike","value":4009.99,"active":false}
+
+curl $API_URL/1 \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "PUT" \
+    --data '{"value": 11500.99}' 
+
+
+$ curl $API_URL/1
+{"CreatedAt":"2023-06-22T13:35:25.641Z","UpdatedAt":"2023-06-22T13:37:47.929Z","DeletedAt":null,"ID":"1","name":"bike","value":11500.99,"active":false}
+
+curl $API_URL/3 \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "DELETE"
+
+$ curl $API_URL
+[{"CreatedAt":"2023-06-22T13:35:25.641Z","UpdatedAt":"2023-06-22T13:37:47.929Z","DeletedAt":null,"ID":"1","name":"bike","value":11500.99,"active":false},{"CreatedAt":"2023-06-22T13:34:00.088Z","UpdatedAt":"2023-06-22T13:34:00.088Z","DeletedAt":null,"ID":"2","name":"ebook x","value":5,"active":false}]
+```
+
+7) Delete the local cluster (optional )
 If you create a local cluster in step 3, there is an script to remove the local cluster. This script is `poc/delete-local-cluster.sh`
+
+
 
 
 ### REF (example): https://github.com/adavarski/homelab -> We can add additional system (grafana/prometheus/etc.) Apps & ApplicationSet via ArgoCD manifests (bootstrap root)
@@ -243,6 +299,67 @@ $ cd homelab/bootstrap/root/
 $ ./apply.sh 
 
 ```
+###  Local development with Skaffold
+
+#### services
+- `api` REST;
+- `mySql` database.
+
+#### Start k3d & Skaffold deploy
+```
+$ cd poc/
+$ ./create-local-cluster.sh
+$ skaffold run
+Example: skaffold dev --port-forward  --trigger polling
+```
+#### methods
+- Set API_URL
+```  
+API_URL="http://localhost:8080/api/v1/products"
+curl $API_URL
+
+### get ALL products
+curl $API_URL
+
+### post add one product
+curl $API_UR \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "1","name": "bike","value": 4009.99}' \
+
+curl $API_URL \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "2","name": "ebook x","value": 5.00}'
+
+curl $API_URL \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "POST" \
+    --data '{"id": "3","name": "Server z","value": 90000.00}'
+
+### get ONE product
+curl $API_URL/1
+
+### put change ONE product
+curl $API_URL/1 \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "PUT" \
+    --data '{"value": 11500.99}'    
+
+### delete ONE product
+curl $API_URL/1 \
+    --include \
+    --header "Content-Type: application/json" \
+    --request "DELETE"
+
+```
+
+### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
+
 
 ### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
