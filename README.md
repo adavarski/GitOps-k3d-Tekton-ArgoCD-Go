@@ -13,16 +13,25 @@ Note: write REST API sample in `golang`.
 
 Tekton is an Open Source framework to build CI/CD pipelines directly over a Kuberentes cluster. It was originally developed at Google and was known as Knative pipelines.
 
-Ref: [Pipeline](https://github.com/tektoncd/pipeline/blob/main/config/300-pipeline.yaml) or [Task](https://github.com/tektoncd/pipeline/blob/main/config/300-task.yaml).
+Tekton defines a series of Kubernetes custom resources (CRDs) extending the Kubernetes API. Sorry, what that means? Ok, if we go to the Kubernetes official page, we can read the following definition:
 
+```
+Kubernetes objects are persistent entities in the Kubernetes system. Kubernetes uses these entities to represent the state of your cluster.
+```
+
+So, examples of Kubernetes objects are: Pod, Service, Deployment, etc. Tekton builds its own objects to Kubernetes and deploys them into the cluster. If you feel curious about custom objects, here the official documentation is and you can also check the Tekton Github to see how these objects are. For instance, [Pipeline](https://github.com/tektoncd/pipeline/blob/main/config/300-pipeline.yaml) or [Task](https://github.com/tektoncd/pipeline/blob/main/config/300-task.yaml).
 
 
 ### Argo CD?
 
-Argo CD is a delivery tool (CD) built for Kubernetes, based on GitOps movement. Argo CD works synchronizing “Kubernetes files” between a git repository and a Kubernetes cluster. That is, if there is a change in a YAML file, Argo CD will detect that there are changes and will try to apply those changes in the cluster.
+Argo CD is a delivery tool (CD) built for Kubernetes, based on GitOps movement. So, what that means? Basically that Argo CD works synchronizing “Kubernetes files” between a git repository and a Kubernetes cluster. That is, if there is a change in a YAML file, Argo CD will detect that there are changes and will try to apply those changes in the cluster.
 
+Argo CD, like Tekton, also creates its own Kubernetes custom resources that are installed into the Kubernetes cluster.
 
 Are they ready to be adopted?
+
+We are facing two young platforms and that may imply that there are not many examples, documentation or even maturity failures, but it’s true that both tools are called to be the standard cloud native CI/CD according to the principal cloud players.
+
 
 For instance, Tekton:
 
@@ -37,6 +46,19 @@ And, talking about Argo CD:
 
 - Red Hat: https://developers.redhat.com/blog/2020/08/17/openshift-joins-the-argo-cd-community-kubecon-europe-2020/
 - IBM: https://www.ibm.com/cloud/blog/simplify-and-automate-deployments-using-gitops-with-ibm-multicloud-manager-3-1-2
+
+
+### CI/CD Cloud Native?
+
+We’re talking a lot about “cloud native” associated to Tekton & Argo CD but, what do we mean by that? Both Tekton and Argo CD are installed in the Kubernetes cluster and they are based on extending Kubernetes API. Let’s see it in detail:
+
+- Scalability: both tools are installed in the cluster and because of that, they work creating pods to perform tasks. Pods are the way in which applications can scale horizontally … so, scalabilly are guaranteed.
+
+- Portabillity: both tools are based on extending Kubernetes API, creating new Kubernetes objects. These objects can be installed in every Kubernetes cluster.
+
+- Reusability: the different elements within the CI/CD process use the Kubernetes objects defined by Tekton and Argo CD in the same way that you work with deployments o service objects. That means that stages, tasks or applications are YAML files that you can store in some repository and use in every cluster with Tekton and Argo CD installed. For instance, it’s possible to use artifacts from Tekton catalog or even, it’s possible to use the Openshift catalog or building a custom one.
+
+
 
 
 ### What are we going to build?
