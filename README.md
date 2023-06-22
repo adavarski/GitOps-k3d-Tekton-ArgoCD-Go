@@ -153,7 +153,7 @@ but we will use Ingress -> just open this url in the browser: http://tekton.192.
 
 By that link you’ll access to PipelineRuns options and you’ll see a pipeline executing.
 
-<img src="poc/doc/img/gitops-tekton-pipeline.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelines.png?raw=true" width="1000">
 
 If there is some error we can redeploy/rerun tekton pipeline and tasks:
 
@@ -170,11 +170,11 @@ If there is some error we can redeploy/rerun tekton pipeline and tasks:
 
 If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option.
 
-<img src="poc/doc/img/gitops-tekton-tasks.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-tasks.png?raw=true" width="1000">
 
 If you click in this pipelinerun you’ll see the different executed stages:
 
-<img src="poc/doc/img/gitops-k3d-tekton-argo-tekton.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-tasksruns.png?raw=true" width="1000">
 
 Each stage is executed by a pod. For instance, you can execute:
 
@@ -203,7 +203,7 @@ argocd             argocd-ingress      nginx   argocd.192.168.1.99.nip.io      1
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
-<img src="poc/doc/img/gitops-tekton-update-infra-repo.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelines-update-git-repo.png?raw=true" width="1000">
 
 
 ####  Argo CD Part
@@ -221,8 +221,9 @@ Just open http://argocd.192.168.1.99.nip.io:8888 (admin / `$ kubectl -n argocd g
 
 In this dashboard you should be the “product service” application that manages synchronization between Kubernetes cluster and GitOps repository
 
-<img src="poc/doc/img/gitops-k3d-tekton-argo-argo.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-argocd-products.png?raw=true" width="1000">
 
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-argocd-products-app.png?raw=true" width="1000">
 
 This application is “healthy” but as the objects associated with Product Service (Pods, Services, Deployment,…etc) aren’t still deployed to the Kubernetes cluster, you’ll find a “unknown” sync status.
 
