@@ -182,11 +182,12 @@ Each stage is executed by a pod. For instance, you can execute:
 kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
 
 ### Example:
-$ kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
+$  kubectl get pods -n cicd -l "tekton.dev/pipelineRun=products-ci-pipelinerun"
 NAME                                              READY   STATUS      RESTARTS   AGE
-products-ci-pipelinerun-checkout-pod              0/1     Completed   0          16m
-products-ci-pipelinerun-build-image-pod           0/3     Completed   0          13m
-products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0          11m
+products-ci-pipelinerun-checkout-pod              0/1     Completed   0          4m50s
+products-ci-pipelinerun-build-image-pod           0/3     Completed   0          4m50s
+products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0          87s
+
  
 ```
  
