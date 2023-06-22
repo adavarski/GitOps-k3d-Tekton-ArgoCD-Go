@@ -5,8 +5,9 @@ This is a PoC to check Tekton, Argo CD and how both tools can work together foll
 With this repo to show how a modern and cloud native CI/CD could be implemented within a Kubernetes environment. We’ll use two different tools:
 
 - Tekton: to implement CI stages
-- Argo CD: to implement CD stages (Gitops)
+- Argo CD: to implement CD stages (GitOps)
 
+Note: write REST API sample in `golang`.
 
 ### Tekton?
 
@@ -139,7 +140,6 @@ This step is the most important because installs and configures everything neces
 - Installs Tekton tasks and pipelines
 - Git-clone (from Tekton Hub)
 - Buildah (from Tekton Hub)
-- Prepare Image (custom task: poc/conf/tekton/tasks/prepare-image-task.yaml)
 - Push to GitOps repo (custom task: poc/conf/tekton/tasks/push-to-gitops-repo.yaml)
 - Installs Argo CD application, configured to check changes in gitops repository (resources/gitops_repo)
 
@@ -149,15 +149,13 @@ This step is the most important because installs and configures everything neces
 Once everything is installed, you can play with this project:
 
 #### Tekton Part
-Tekton dashboard could be exposed locally using this command: `kubectl proxy --port=8080`
-
-but we will use Ingress -> just open this url in the browser: http://tekton.192.168.1.99.nip.io:8888
+Tekton dashboard just open this url in the browser: http://tekton.192.168.1.99.nip.io:8888
 
 By that link you’ll access to PipelineRuns options and you’ll see a pipeline executing.
 
-<img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelines.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelinesruns.png?raw=true" width="1000">
 
-If there is some error we can redeploy/rerun tekton pipeline and tasks:
+Note: If there is some error we can redeploy/rerun tekton pipeline and tasks:
 
 ```
   kubectl delete -f conf/tekton/git-access -n cicd
@@ -174,7 +172,7 @@ If you want to check what Tasks are installed in the cluster, you can navigate t
 
 <img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-tasks.png?raw=true" width="1000">
 
-If you click in this pipelinerun you’ll see the different executed stages:
+If you click in this tasksrun you’ll see the different executed stages:
 
 <img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-tasksruns.png?raw=true" width="1000">
 
@@ -190,18 +188,18 @@ products-ci-pipelinerun-checkout-pod              0/1     Completed   0         
 products-ci-pipelinerun-build-image-pod           0/3     Completed   0          4m50s
 products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0          87s
 
- 
 ```
  
-to see how different pods are created to execute different stages:
-
+to see how different pods are created to execute different stages.
 
 Note: Ingresses
 ```
 $ kubectl get ing --all-namespaces
-NAMESPACE          NAME                CLASS   HOSTS                           ADDRESS         PORTS   AGE
-tekton-pipelines   tekton-ingress      nginx   tekton.192.168.1.99.nip.io      192.168.128.2   80      88m
-argocd             argocd-ingress      nginx   argocd.192.168.1.99.nip.io      192.168.128.2   80      88m
+NAMESPACE          NAME               CLASS   HOSTS                          ADDRESS         PORTS   AGE
+tekton-pipelines   tekton-ingress     nginx   tekton.192.168.1.99.nip.io     192.168.240.2   80      60m
+argocd             argocd-ingress     nginx   argocd.192.168.1.99.nip.io     192.168.240.2   80      60m
+default            products-ingress   nginx   products.192.168.1.99.nip.io   192.168.240.2   80      60m
+
 ```
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
@@ -211,16 +209,7 @@ As we said before, the last stage in CI part consist on performing a push action
 
 ####  Argo CD Part
 
-To access to Argo CD dashboard you need to perform a port-forward:
-
-```
-kubectl port-forward svc/argocd-server -n argocd 9080:443
-```
-Then, just open this url in the browser: https://localhost:9080/ 
-
-But again we will use Ingress: 
-
-Just open http://argocd.192.168.1.99.nip.io:8888 (admin / `$ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`)
+To access to Argo CD dashboard just open this url in the browser:  http://argocd.192.168.1.99.nip.io:8888 (admin / `$ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`)
 
 In this dashboard you should be the “product service” application that manages synchronization between Kubernetes cluster and GitOps repository
 
@@ -291,7 +280,6 @@ If you create a local cluster in step 3, there is an script to remove the local 
 
 
 
-
 ### REF (example): https://github.com/adavarski/homelab -> We can add additional system (grafana/prometheus/etc.) Apps & ApplicationSet via ArgoCD manifests (bootstrap root)
 ````
 $ git clone https://github.com/adavarski/homelab
@@ -299,6 +287,10 @@ $ cd homelab/bootstrap/root/
 $ ./apply.sh 
 
 ```
+### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry
+(Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
+
+
 ###  Local development with Skaffold
 
 #### services
@@ -307,8 +299,7 @@ $ ./apply.sh
 
 #### Start k3d & Skaffold deploy
 ```
-$ cd poc/
-$ ./create-local-cluster.sh
+$ poc/create-local-cluster.sh
 $ skaffold run
 Example: skaffold dev --port-forward  --trigger polling
 ```
@@ -358,8 +349,7 @@ curl $API_URL/1 \
 
 ```
 
-### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry
-(Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
+
 
 
 
