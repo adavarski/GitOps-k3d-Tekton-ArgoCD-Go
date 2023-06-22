@@ -361,5 +361,4 @@ curl $API_URL/1 \
 ### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
 
-### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
