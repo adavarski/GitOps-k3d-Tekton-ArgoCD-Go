@@ -314,7 +314,7 @@ Example: skaffold dev --port-forward  --trigger polling
 ```
 #### methods
 - Set API_URL
-```  
+``` 
 API_URL="http://localhost:8080/api/v1/products"
 curl $API_URL
 
@@ -358,7 +358,8 @@ curl $API_URL/1 \
 
 ```
 
-### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
+### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry
+(Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
 
 
