@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: products-ingress
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "products.192.168.1.99.nip.io"
+    http:
+      paths:
+      - path: "/"
+        pathType: Prefix
+        backend:
+          service:
+            name: products
+            port:
+              number: 8080

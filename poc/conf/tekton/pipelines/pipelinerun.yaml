@@ -1,0 +1,28 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: products-ci-pipelinerun
+  namespace: cicd
+spec:
+  pipelineRef:
+    name: example-ci-pipeline
+  serviceAccountName: git-push-service-account
+  params:
+    - name: url
+      value: 'https://github.com/adavarski/GitOps-k3d-Tekton-ArgoCD-Go'
+    - name: url-gitops
+      value: 'https://github.com/adavarski/GitOps-k3d-Tekton-ArgoCD-Go'
+    - name: branch
+      value: main
+    - name: working-dir
+      value: './resources/sources-repo/services/products'
+    - name: image-name
+      value: 'host.k3d.internal:5000/products'
+    - name: deployments-dir
+      value: '/resources/gitops-repo/services/products'
+    - name: deployment-file
+      value: 'products.yaml'
+  workspaces:
+    - name: ws
+      persistentVolumeClaim:
+        claimName: shared-workspace

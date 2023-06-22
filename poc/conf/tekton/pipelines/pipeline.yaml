@@ -1,0 +1,64 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: example-ci-pipeline
+  namespace: cicd
+spec:
+  params:
+    - name: url
+      description: Git url
+    - name: url-gitops
+      description: Git url for gitops repository
+    - name: branch
+      description: Revision to use
+    - name: working-dir
+      description: Working dir
+    - name: image-name
+      description: Image name
+    - name: deployments-dir
+      description: Folder containing K8s deployments
+    - name: deployment-file
+      description: Deployment file
+  workspaces:
+    - name: ws
+  tasks:
+    - name: checkout
+      taskRef:
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.url)
+        - name: revision
+          value: $(params.branch)
+        - name: deleteExisting
+          value: 'true'
+      workspaces:
+        - name: output
+          workspace: ws
+    - name: build-image
+      taskRef:
+        name: buildah
+      params:
+        - name: CONTEXT
+          value: '$(params.working-dir)'
+        - name: IMAGE
+          value: '$(params.image-name)'
+        - name: TLSVERIFY
+          value: 'false'
+      workspaces:
+        - name: source
+          workspace: ws
+    - name: push-changes-gitops
+      taskRef:
+        name: push-to-gitops-repo
+      runAfter:
+        - build-image
+      params:
+        - name: url-gitops
+          value: '$(params.url-gitops)'
+        - name: commit
+          value: '$(tasks.checkout.results.commit)'
+        - name: deployments-dir
+          value: '$(params.deployments-dir)'
+        - name: deployment-file
+          value: '$(params.deployment-file)'
