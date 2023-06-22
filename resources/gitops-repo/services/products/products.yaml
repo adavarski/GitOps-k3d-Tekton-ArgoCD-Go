@@ -76,8 +76,8 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/path: /metrics
         prometheus.io/port: "8080" 
-        revision: "fe598b815531058110cbf7c7a8f2b37bdddea8d0"
-        buildDate: "20230620083725"
+        revision: "f9e19114fe45aee40ff915200f186b3c1087d4cb"
+        buildDate: "20230622120212"
        
       labels:
         app: products
