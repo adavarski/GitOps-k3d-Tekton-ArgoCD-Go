@@ -43,6 +43,7 @@ installPoCResources() {
   kubectl apply -f conf/tekton/tasks -n cicd
   kubectl apply -f conf/tekton/pipelines -n cicd
   echo "Create ingress for argo & tekton"
+  sleep 120
   kubectl apply -f ingress-argo.yaml -n argocd
   kubectl apply -f ingress-tekton.yaml -n tekton-pipelines
   kubectl apply -f ingress-products.yaml -n default
