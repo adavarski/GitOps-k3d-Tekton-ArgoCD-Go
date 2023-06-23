@@ -13,11 +13,7 @@ Note: write REST API sample in `golang`.
 
 Tekton is an Open Source framework to build CI/CD pipelines directly over a Kuberentes cluster. It was originally developed at Google and was known as Knative pipelines.
 
-Tekton defines a series of Kubernetes custom resources (CRDs) extending the Kubernetes API. Sorry, what that means? Ok, if we go to the Kubernetes official page, we can read the following definition:
-
-```
-Kubernetes objects are persistent entities in the Kubernetes system. Kubernetes uses these entities to represent the state of your cluster.
-```
+Tekton defines a series of Kubernetes custom resources (CRDs) extending the Kubernetes API. Sorry, what that means? Ok, if we go to the Kubernetes official page, we can read the following definition: `Kubernetes objects are persistent entities in the Kubernetes system. Kubernetes uses these entities to represent the state of your cluster.`
 
 So, examples of Kubernetes objects are: Pod, Service, Deployment, etc. Tekton builds its own objects to Kubernetes and deploys them into the cluster. If you feel curious about custom objects, here the official documentation is and you can also check the Tekton Github to see how these objects are. For instance, [Pipeline](https://github.com/tektoncd/pipeline/blob/main/config/300-pipeline.yaml) or [Task](https://github.com/tektoncd/pipeline/blob/main/config/300-task.yaml).
 
