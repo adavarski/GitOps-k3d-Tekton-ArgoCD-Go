@@ -7,7 +7,7 @@ With this repo to show how a modern and cloud native CI/CD could be implemented 
 - Tekton: to implement CI stages
 - Argo CD: to implement CD stages (GitOps)
 
-Note: write REST API sample in `golang`.
+Note: write REST API sample app in `golang`.
 
 ### Tekton?
 
