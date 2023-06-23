@@ -367,7 +367,7 @@ curl $API_URL/1 \
 
 <img src="poc/doc/img/gitops.png?raw=true" width="800">
 
-<img src="poc/doc/img/GIT-2-git-glow_branching_strategy.png?raw=true" width="800">
+<img src="poc/doc/img/GIT-2-git-glow_branching_strategy.png?raw=true" width="600">
 
 ```
 ### Makefile
