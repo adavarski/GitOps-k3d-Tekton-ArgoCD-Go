@@ -86,7 +86,7 @@ A Kubernetes cluster. If you don’t have one, you can create a K3D one using th
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [k3d](https://k3d.io/#installation)
-- [Skaffold)](https://skaffold.dev)  (Note: Local Kubernetes Development)
+- [Skaffold](https://skaffold.dev)  (Note: Local Kubernetes Development)
 
 
 #### Repository structure
