@@ -363,9 +363,9 @@ curl $API_URL/1 \
     --header "Content-Type: application/json" \
     --request "DELETE"
 ```
-### Example production-like GitFlow branching strategy with Argo & Tekton:
+### Note: Example production-like GitFlow branching strategy with Argo & Tekton (GitOps):
 
-<img src="poc/doc/img/gitops.png?raw=true" width="1000">
+<img src="poc/doc/img/gitops.png?raw=true" width="800">
 
 
 
