@@ -82,6 +82,7 @@ A Kubernetes cluster. If you don’t have one, you can create a K3D one using th
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [k3d](https://k3d.io/#installation)
+- [tkn](https://tekton.dev/docs/cli/) (Note: Tekton CLI)
 - [Skaffold](https://skaffold.dev)  (Note: Local Kubernetes Development)
 
 
@@ -169,7 +170,7 @@ By that link you’ll access to PipelineRuns options and you’ll see a pipeline
 
 <img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelinesruns.png?raw=true" width="1000">
 
-Note: If there is some error we can redeploy/rerun tekton pipeline and tasks:
+Note: If there is some error we can redeploy/rerun tekton pipeline and tasks or better use `tkn` (Tekton CLI):
 
 ```
   kubectl delete -f conf/tekton/git-access -n cicd
@@ -179,7 +180,14 @@ Note: If there is some error we can redeploy/rerun tekton pipeline and tasks:
   kubectl apply -f conf/tekton/git-access -n cicd
   kubectl apply -f conf/tekton/tasks -n cicd
   kubectl apply -f conf/tekton/pipelines -n cicd
+
+ tkn pipeline list -n cicd
+ tkn taskrun list -n cicd
+ tkn task list -n cicd
+ tkn pipeline logs -n cicd
+
 ```
+
 
 If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option.
 
