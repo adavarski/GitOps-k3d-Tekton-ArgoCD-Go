@@ -86,7 +86,7 @@ A Kubernetes cluster. If you don’t have one, you can create a K3D one using th
 - [Docker](https://docs.docker.com/engine/install/ubuntu/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 - [k3d](https://k3d.io/#installation)
-- [Skaffold (Opc)](https://skaffold.dev)  (Note: Local Kubernetes Development)
+- [Skaffold)](https://skaffold.dev)  (Note: Local Kubernetes Development)
 
 
 #### Repository structure
@@ -109,7 +109,6 @@ The first step is to fork the repo `https://github.com/adavarski/GitOps-k3d-Tekt
 
 You have to modify some files to add a token & You need your own repo to perform Gitops operations
 
-
 2) Add Github token
 It’s necessary to add a Github Personal Access Token to Tekton can perform git operations, like push to gitops repo. If you need help to create this token, you can follow these instructions: https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
 
@@ -131,7 +130,6 @@ stringData:
   username: adavarski
   password: ## INSERT TOKEN HERE
 
-
 poc/conf/tekton/git-access/secret.yaml
 
 apiVersion: v1
@@ -149,7 +147,6 @@ stringData:
 
 Note: In fact, for Argo CD, create secret with the token isn’t necessary because the gitops repository in Github has public access but it’s interesting to keep it in order to know what you need to do in case the repository be private.
 
-
 3) Create Kubernetes cluster (optional)
 This step is optional. If you already have a cluster, perfect, but if not, you can create a local one based on K3D, just executing the script `poc/create-local-cluster.sh`. This script creates the local cluster and configure the private image registry to manage Docker images.
 
@@ -164,7 +161,6 @@ This step is the most important because installs and configures everything neces
 - Buildah (from Tekton Hub)
 - Push to GitOps repo (custom task: poc/conf/tekton/tasks/push-to-gitops-repo.yaml)
 - Installs Argo CD application, configured to check changes in gitops repository (resources/gitops_repo)
-
 
 5) Explore and play
 
@@ -187,7 +183,6 @@ Note: If there is some error we can redeploy/rerun tekton pipeline and tasks:
   kubectl apply -f conf/tekton/git-access -n cicd
   kubectl apply -f conf/tekton/tasks -n cicd
   kubectl apply -f conf/tekton/pipelines -n cicd
-
 ```
 
 If you want to check what Tasks are installed in the cluster, you can navigate to Tasks option.
@@ -209,9 +204,7 @@ NAME                                              READY   STATUS      RESTARTS  
 products-ci-pipelinerun-checkout-pod              0/1     Completed   0          4m50s
 products-ci-pipelinerun-build-image-pod           0/3     Completed   0          4m50s
 products-ci-pipelinerun-push-changes-gitops-pod   0/1     Completed   0          87s
-
-```
- 
+``` 
 to see how different pods are created to execute different stages.
 
 Note: Ingresses
@@ -221,13 +214,11 @@ NAMESPACE          NAME               CLASS   HOSTS                          ADD
 tekton-pipelines   tekton-ingress     nginx   tekton.192.168.1.99.nip.io     192.168.240.2   80      60m
 argocd             argocd-ingress     nginx   argocd.192.168.1.99.nip.io     192.168.240.2   80      60m
 default            products-ingress   nginx   products.192.168.1.99.nip.io   192.168.240.2   80      60m
-
 ```
 
 As we said before, the last stage in CI part consist on performing a push action to GitOps repository. In this stage, content from GitOps repo is cloned, commit information is updated in cloned files (Kubernentes descriptors) and a push is done. The following picture shows an example of this changes:
 
 <img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelines-update-git-repo.png?raw=true" width="1000">
-
 
 ####  Argo CD Part
 
@@ -250,9 +241,7 @@ Finally, the sync status become “Synced”:
 $ git clone https://github.com/adavarski/homelab
 $ cd homelab/bootstrap/root/
 $ ./apply.sh 
-
 ```
-
 
 6) Testing Go app
 ```
@@ -310,11 +299,11 @@ $ curl $API_URL
 If you create a local cluster in step 3, there is an script to remove the local cluster. This script is `poc/delete-local-cluster.sh`
 
 
-### TODO: Use jfrog for docker registry and artefacts instead of nexus and k3d docker registry or use dockerhub registry
+#### TODO: Use jfrog or dockerhub registry (instead of k3d docker registry)
 (Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson)
 
 
-###  Local development with Skaffold
+###  Local Development with Skaffold
 
 #### services
 - `api` REST;
@@ -369,7 +358,6 @@ curl $API_URL/1 \
     --include \
     --header "Content-Type: application/json" \
     --request "DELETE"
-
 ```
 
 
