@@ -62,6 +62,8 @@ We are going to build a simple CI/CD process, on Kubernetes, with these stages:
 
 <img src="poc/doc/img/pipeline-gitops.png?raw=true" width="1000">
 
+Note: TODO -> Black part
+
 In this pipeline, we can see two different parts:
 
 #### CI part, implemented by Tekton and ending with a stage in which a push to a repository is done.
