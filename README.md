@@ -60,7 +60,7 @@ We’re talking a lot about “cloud native” associated to Tekton & Argo CD bu
 ### What are we going to build?
 We are going to build a simple CI/CD process, on Kubernetes, with these stages:
 
-<img src="poc/doc/img/pipeline-concepto.png?raw=true" width="1000">
+<img src="poc/doc/img/pipeline-gitops.png?raw=true" width="1000">
 
 In this pipeline, we can see two different parts:
 
