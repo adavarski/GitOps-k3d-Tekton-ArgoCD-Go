@@ -170,7 +170,7 @@ By that link you’ll access to PipelineRuns options and you’ll see a pipeline
 
 <img src="poc/doc/img/gitops-k3d-argocd-tekton-tekton-pipelinesruns.png?raw=true" width="1000">
 
-Note: If there is some error we can redeploy/rerun tekton pipeline and tasks or better use `tkn` (Tekton CLI):
+Note: If there is some error we can redeploy/rerun tekton pipeline and tasks :
 
 ```
   kubectl delete -f conf/tekton/git-access -n cicd
@@ -181,10 +181,11 @@ Note: If there is some error we can redeploy/rerun tekton pipeline and tasks or 
   kubectl apply -f conf/tekton/tasks -n cicd
   kubectl apply -f conf/tekton/pipelines -n cicd
 
- tkn pipeline list -n cicd
- tkn taskrun list -n cicd
- tkn task list -n cicd
- tkn pipeline logs -n cicd
+  ### use `tkn` (Tekton CLI) to list/check/etc.
+  tkn pipeline list -n cicd
+  tkn taskrun list -n cicd
+  tkn task list -n cicd
+  tkn pipeline logs -n cicd
 
 ```
 
