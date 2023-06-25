@@ -314,7 +314,7 @@ Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOM
 
 K8s local development environment using K3d and skaffold:
 
-<img src="poc/doc/img/architecture-skaffold-dev.png?raw=true" width="800">
+<img src="poc/doc/img/architecture-skaffold-dev.png?raw=true" width="600">
 
 #### services
 - `api` REST;
