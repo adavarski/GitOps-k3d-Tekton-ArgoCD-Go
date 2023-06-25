@@ -312,6 +312,10 @@ Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOM
 
 ###  Local Development with Skaffold
 
+K8s local development environment using K3d and skaffold:
+
+<img src="poc/doc/img/architecture-skaffold-dev.png?raw=true" width="800">
+
 #### services
 - `api` REST;
 - `mySql` database.
@@ -320,7 +324,7 @@ Note: kubectl create secret generic dockerhub --from-file=.dockerconfigjson=$HOM
 ```
 $ poc/create-local-cluster.sh
 $ skaffold run
-Example: skaffold dev --port-forward  --trigger polling
+Examples: skaffold run --tail; skaffold dev --port-forward  --trigger polling; skaffold dev --default-repo=k3d-registry.localhost:12345; 
 ```
 #### methods
 - Set API_URL
