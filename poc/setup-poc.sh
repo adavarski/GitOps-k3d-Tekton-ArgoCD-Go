@@ -42,6 +42,15 @@ installPoCResources() {
   kubectl apply -f conf/tekton/git-access -n cicd
   kubectl apply -f conf/tekton/tasks -n cicd
   kubectl apply -f conf/tekton/pipelines -n cicd
+
+  #### First Tekton pipeline run failed
+  # kubectl delete -f conf/tekton/git-access -n cicd
+  # kubectl delete -f conf/tekton/tasks -n cicd
+  # kubectl delete -f conf/tekton/pipelines -n cicd
+  # kubectl apply -f conf/tekton/git-access -n cicd
+  # kubectl apply -f conf/tekton/tasks -n cicd
+  # kubectl apply -f conf/tekton/pipelines -n cicd
+  
   echo "Create ingress for argo & tekton"
   sleep 120
   kubectl apply -f ingress-argo.yaml -n argocd
